@@ -1,0 +1,42 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+	<h2>All phones</h2>
+
+	<table class="table">
+
+		<tr>
+			<th>Phone</th>
+			<th>Contact</th>
+			<th>Actions</th>
+		</tr>
+
+		{% for phone in phones %}
+
+			<tr>
+				<td>
+					{{ phone.phone }} 
+				</td>
+				<td>
+					{{ phone.getUserId() }}
+				</td>
+				<td>
+					<a href="{{path('coderslab_phone_deletephone', {'id':phone.id})}}" class="btn btn-danger btn-xs">
+						Remove
+					</a>
+					<a href="{{path('coderslab_phone_editphone', {'id':phone.id})}}" class="btn btn-primary btn-xs">
+						Edit
+					</a>
+				</td>	
+			</tr>
+
+		{% else %}
+			
+			No phones.
+
+		{% endfor %}
+
+	</table>
+	
+{% endblock %}

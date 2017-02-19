@@ -1,0 +1,42 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+	<h2>All teams</h2>
+
+	<table class="table">
+
+		<tr>
+			<th>Teams</th>
+			<th>Actions</th>
+		</tr>
+
+		{% for team in teams %}
+
+			<tr>
+				<td>
+					<a href="{{path('coderslab_team_showteam', {'id':team.id})}}">
+						{{ team.team }}
+					</a>	
+				</td>										
+				<td>
+					<a href="{{path('coderslab_team_deleteteam', {'id':team.id})}}" class="btn btn-danger btn-xs">
+						Remove
+					</a>
+					<a href="{{path('coderslab_team_editteam', {'id':team.id})}}" class="btn btn-primary btn-xs">
+						Edit
+					</a>	
+				</td>
+			</tr>		
+
+{% else %}
+
+	No teams.
+
+{% endfor %}
+
+	</table>
+
+	<a href="{{path('coderslab_team_newteam')}}" class="btn btn-success">Add new</a>
+
+{% endblock %}

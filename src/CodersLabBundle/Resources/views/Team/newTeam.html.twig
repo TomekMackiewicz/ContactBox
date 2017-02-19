@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+	{{ form_start(form) }}
+		{{ form_label(form.team) }}
+		{{ form_widget(form.team, {'attr':{'class':'form-control','placeholder':'Team...'}}) }}
+		<br>
+		{{ form_widget(form.save, {'attr':{'class':'btn btn-default'}}) }}
+	{{ form_end(form) }}
+
+{% endblock %}

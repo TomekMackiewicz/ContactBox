@@ -1,0 +1,13 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+	{{ form_start(form) }}
+		{{ form_label(form.email) }}
+		{{ form_widget(form.email, {'attr':{'class':'form-control','placeholder':'Email...'}}) }}
+		{{ form_widget(form.user_id, {value:app.request.query.get("id"),'attr':{'class':'hidden'}}) }}
+		<br>
+		{{ form_widget(form.save, {'attr':{'class':'btn btn-default'}}) }}
+	{{ form_end(form) }}
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+	{{ form_start(form) }}
+		{{ form_label(form.name) }}
+		{{ form_widget(form.name, {'attr':{'class':'form-control','placeholder':'Name...'}}) }}
+		<br>
+		{{ form_label(form.surname) }}
+		{{ form_widget(form.surname, {'attr':{'class':'form-control','placeholder':'Surname...'}}) }}
+		<br>
+		{{ form_label(form.description) }}
+		{{ form_widget(form.description, {'attr':{'class':'form-control','placeholder':'Description...'}}) }}
+		<br>
+		{{ form_widget(form.save, {'attr':{'class':'btn btn-default'}}) }}
+	{{ form_end(form) }}
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+	<h2>All addresses</h2>
+
+	<table class="table">
+
+		<tr>
+			<th>Address</th>
+			<th>Contact</th>
+			<th>Actions</th>
+		</tr>
+
+		{% for address in addresses %}
+
+			<tr>
+				<td>
+					{{ address.fullAddress }} 
+				</td>
+				<td>
+					{{ address.getUserId() }}
+				</td>
+				<td>
+					<a href="{{path('coderslab_address_deleteaddress', {'id':address.id})}}" class="btn btn-danger btn-xs">
+						Remove
+					</a>
+					<a href="{{path('coderslab_address_editaddress', {'id':address.id})}}" class="btn btn-primary btn-xs">
+						Edit
+					</a>
+				</td>	
+			</tr>
+
+		{% else %}
+			
+			No addresses.
+
+		{% endfor %}
+
+	</table>
+	
+{% endblock %}

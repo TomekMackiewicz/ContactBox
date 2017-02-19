@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+	{{ form_start(form) }}
+		{{ form_label(form.phone) }}
+		{{ form_widget(form.phone, {'attr':{'class':'form-control'}}) }}
+		<br>
+		{{ form_widget(form.update, {'attr':{'class':'btn btn-default'}}) }}
+	{{ form_end(form) }}
+
+{% endblock %}

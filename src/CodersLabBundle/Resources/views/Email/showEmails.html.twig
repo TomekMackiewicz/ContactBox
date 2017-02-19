@@ -1,0 +1,42 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+	<h2>All emails</h2>
+
+	<table class="table">
+
+		<tr>
+			<th>Email</th>
+			<th>Contact</th>
+			<th>Actions</th>
+		</tr>
+
+		{% for email in emails %}
+
+			<tr>
+				<td>
+					{{ email.email }} 
+				</td>
+				<td>
+					{{ email.getUserId() }}
+				</td>
+				<td>
+					<a href="{{path('coderslab_email_deleteemail', {'id':email.id})}}" class="btn btn-danger btn-xs">
+						Remove
+					</a>
+					<a href="{{path('coderslab_email_editemail', {'id':email.id})}}" class="btn btn-primary btn-xs">
+						Edit
+					</a>
+				</td>	
+			</tr>
+
+		{% else %}
+			
+			No emails.
+
+		{% endfor %}
+
+	</table>
+	
+{% endblock %}
