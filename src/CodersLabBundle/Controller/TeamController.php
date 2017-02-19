@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use CodersLabBundle\Entity\Team;
+use CodersLabBundle\Entity\Contact;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
@@ -46,7 +47,7 @@ class TeamController extends Controller
 	* @Method("GET")
 	* @Template()
 	*/
-	public function showTeamAction($id)
+	public function showTeamAction($id, \CodersLabBundle\Entity\Contact $contacts) 
 	{
 		// Manager encji
 		$em = $this->getDoctrine()->getManager();
@@ -54,9 +55,12 @@ class TeamController extends Controller
 		$repo = $em->getRepository('CodersLabBundle:Team');
 		$team = $repo->find($id);	
 
+		$repoContacts = $em->getRepository('CodersLabBundle:Contact');
+		$allContacts = $repoContacts->findAll();
+
 		$contacts = $team->getContacts();
 
-		return ['team' => $team, 'contacts' => $contacts];
+		return ['team' => $team, 'contacts' => $contacts, 'allContacts' => $allContacts];
 	}
 
 	// -----------------------------------------
@@ -188,6 +192,68 @@ class TeamController extends Controller
 
 	// -----------------------------------------
 	//
+	//    Add contact
+	//
+	// -----------------------------------------
+
+	/**
+	* @Route("/addContact/")
+	* @Method("POST")
+	*/		
+	public function addContact()
+	{
+		$teamId = $_POST['team'];
+		$contactId = $_POST['contact'];
+
+		$em = $this->getDoctrine()->getManager();
+		$repoC = $this->getDoctrine()->getManager()->getRepository('CodersLabBundle:Contact');
+		$repoT = $this->getDoctrine()->getManager()->getRepository('CodersLabBundle:Team');
+		$contact = $repoC->find($contactId);
+		$team = $repoT->find($teamId);
+
+		$team->addContact($contact);
+		$contact->addTeam($team);
+
+		$em->persist($team); 
+		$em->persist($contact);
+		$em->flush();
+		return $this->redirectToRoute('coderslab_team_showteam', ['id'=> $teamId]);
+	}
+
+	// -----------------------------------------
+	//
+	//    Remove contact
+	//
+	// -----------------------------------------
+
+	/**
+	* @Route("/removeContact/")
+	* @Method("POST")
+	*/		
+	public function removeContact()
+	{
+		$teamId = $_POST['team'];
+		$contactId = $_POST['contact'];
+
+		$em = $this->getDoctrine()->getManager();
+		$repoC = $this->getDoctrine()->getManager()->getRepository('CodersLabBundle:Contact');
+		$repoT = $this->getDoctrine()->getManager()->getRepository('CodersLabBundle:Team');
+		$contact = $repoC->find($contactId);
+		$team = $repoT->find($teamId);
+
+		// $em->removeTeam($team); 
+		// $em->removeContact($contact);
+
+		$team->getContacts()->remove($contactId);
+		//$contact->getTeams()->remove($teamId);
+		$contact->setTeams(null);
+
+		$em->flush();
+		return $this->redirectToRoute('coderslab_team_showteam', ['id'=> $teamId]);
+	}
+
+	// -----------------------------------------
+	//
 	//    Forms
 	//
 	// -----------------------------------------
@@ -221,38 +287,6 @@ class TeamController extends Controller
 		return $form->getForm();
 	}
 
-	// // Formularz dodania kontaktu
-	// private function getAddContactForm($team, $contact)
-	// {
-	// 	// mechanizm do tworzenia formularzy
-	// 	$form = $this->createFormBuilder($team);
-	// 	// akcja
-	// 	$form->setAction($this->generateUrl('coderslab_team_createteam'));
-	// 	$form->add('team');	
-	// 	$form->add('save', 'submit');
-		
-	// 	// zwracamy formularz
-	// 	return $form->getForm();
-	// }
 
-	/**
-	* @Route("/addContact/{contactId}/{teamId}")
-	*/	
-	public function addContact($contactId, $teamId)
-	{
-		$em = $this->getDoctrine()->getManager();
-		$repoC = $this->getDoctrine()->getManager()->getRepository('CodersLabBundle:Contact');
-		$repoT = $this->getDoctrine()->getManager()->getRepository('CodersLabBundle:Team');
-		$contact = $repoC->find($contactId);
-		$team = $repoT->find($teamId);
-
-		$team->addContact($contact);
-		$contact->addTeam($team);
-
-		$em->persist($team); 
-		$em->persist($contact);
-		$em->flush();
-		return [];
-	}
 
 }

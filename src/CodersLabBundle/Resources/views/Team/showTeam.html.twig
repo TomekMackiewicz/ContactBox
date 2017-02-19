@@ -6,21 +6,46 @@
 	<p>Contacts:</p>
 
 	{% for contact in contacts %}
-		{{ contact }}
+		{{ contact }}<br>
 
 	{% else %}
+
 		No contacts.
 
 	{% endfor %}	
 
 		
 	<hr>
+	Add contact:
+	<form action="{{path('coderslab_team_addcontact')}}" method="POST">
+
+		<select name="contact">
+			{% for contact in allContacts %}
+				<option value="{{contact.id}}">{{contact}}</option>
+			{% endfor %}	
+		</select>
+		<input type="hidden" name="team" value="{{team.id}}"> 		
+		<input type="submit" class="btn btn-success" value="Add contact">
+	</form>	
+	<hr>
+	Remove contact:
+	<form action="{{path('coderslab_team_removecontact')}}" method="POST">
+
+		<select name="contact">
+			{% for contact in allContacts %}
+				<option value="{{contact.id}}">{{contact}}</option>
+			{% endfor %}	
+		</select>
+		<input type="hidden" name="team" value="{{team.id}}"> 		
+		<input type="submit" class="btn btn-danger" value="Remove contact">
+	</form>	
+	<hr>	
 	<a href="{{path('coderslab_team_showteams')}}" class="btn btn-default">
 		Back to list
 	</a>
-	<a href="{{path('coderslab_team_addcontact', {'contactId':2, 'teamId':2})}}" class="btn btn-success">
+{# 	<a href="{{path('coderslab_team_addcontact', {'contactId':2, 'teamId':2})}}" class="btn btn-success">
 		Add Contact
-	</a>	
+	</a>	 #}	
 	<a href="{{path('coderslab_team_deleteteam', {'id':team.id})}}" class="btn btn-danger">
 		Remove
 	</a>
