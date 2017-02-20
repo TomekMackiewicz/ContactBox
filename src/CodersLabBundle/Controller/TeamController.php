@@ -47,7 +47,7 @@ class TeamController extends Controller
 	* @Method("GET")
 	* @Template()
 	*/
-	public function showTeamAction($id, \CodersLabBundle\Entity\Contact $contacts) 
+	public function showTeamAction($id, \CodersLabBundle\Entity\Contact $contacts = null) 
 	{
 		// Manager encji
 		$em = $this->getDoctrine()->getManager();

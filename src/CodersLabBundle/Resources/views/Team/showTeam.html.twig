@@ -2,8 +2,8 @@
 
 {% block body %}
 
-	<h2>{{ team|default('') }}</h2>
-	<p>Contacts:</p>
+	<h2>Group: {{ team|default('') }}</h2>
+	<p>Contacts in group:</p>
 
 	{% for contact in contacts %}
 		{{ contact }}<br>
@@ -20,9 +20,17 @@
 	<form action="{{path('coderslab_team_addcontact')}}" method="POST">
 
 		<select name="contact">
+
 			{% for contact in allContacts %}
+
 				<option value="{{contact.id}}">{{contact}}</option>
+
+			{% else %}
+
+				<option value="0">---</option>
+
 			{% endfor %}	
+
 		</select>
 		<input type="hidden" name="team" value="{{team.id}}"> 		
 		<input type="submit" class="btn btn-success" value="Add contact">
@@ -32,9 +40,17 @@
 	<form action="{{path('coderslab_team_removecontact')}}" method="POST">
 
 		<select name="contact">
+
 			{% for contact in allContacts %}
+
 				<option value="{{contact.id}}">{{contact}}</option>
+
+			{% else %}
+
+				<option value="0">---</option>
+				
 			{% endfor %}	
+
 		</select>
 		<input type="hidden" name="team" value="{{team.id}}"> 		
 		<input type="submit" class="btn btn-danger" value="Remove contact">
