@@ -48,11 +48,8 @@ class PhoneController extends Controller
 	*/
 	public function newPhoneAction()
 	{
-		// Konstruujemy formularz, potrzebujemy danych
 		$phone = new Phone();
-		// Wywołujemy metodę budującą szablon formularza
 		$form = $this->getNewPhoneForm($phone);
-		// musi być createView()
 		return ['form' => $form->createView()];
 	}
 
@@ -64,21 +61,12 @@ class PhoneController extends Controller
 	public function createPhoneAction(Request $req)
 	{
 		$phone = new Phone();
-
 		$form = $this->getNewPhoneForm($phone);
-
-		// Obsługujemy dane przychodzace z formularza
-		// Phone zostaje ustawiony (nie potrzebujemy robić set dla każdej wartości)
 		$form->handleRequest($req); 
 
-		// Można jeszcze dodać isValid()
 		if($form->isSubmitted()) {
-			// Manager encji
 			$em = $this->getDoctrine()->getManager();
-			// Chcemy dodać...
 			$em->persist($phone);
-			// Dodajemy...
-			// Flush może być bez parametru, wtedy wszystkie obiekty (wszystie zmiany)
 			$em->flush();
 		}
 		return $this->redirectToRoute('coderslab_contact_index');
@@ -97,7 +85,6 @@ class PhoneController extends Controller
 	*/
 	public function editPhoneAction($id)
 	{
-		// Inny zapis tego samego, co w create i delete
 		$phone = $this
 			->getDoctrine()
 			->getManager()
@@ -113,27 +100,15 @@ class PhoneController extends Controller
 	*/
 	public function updatePhoneAction(Request $req, $id)
 	{
-		// Manager encji
 		$em = $this->getDoctrine()->getManager();
-		// Bierzemy repozytorium encji
 		$repo = $em->getRepository('CodersLabBundle:Phone');
 		$phone = $repo->find($id);		
-
 		$form = $this->getEditPhoneForm($phone);
-
-		// Obsługujemy dane przychodzace z formularza
-		// Contact zostaje ustawiony (nie potrzebujemy robić set dla każdej wartości)
 		$form->handleRequest($req); 
 
-		// Można jeszcze dodać isValid()
 		if($form->isSubmitted()) {
-			// Manager encji
 			$em = $this->getDoctrine()->getManager();
-			// Dodajemy (przy update bez persist)...
-			// Flush może być bez parametru, wtedy wszystkie obiekty (wszystie zmiany)
 			$em->flush($phone);
-			// Albo krócej:
-			// $this->getDoctrine()->getManager()->flush($contact);
 		}
 		return $this->redirectToRoute('coderslab_phone_showphones');
 	}
@@ -150,14 +125,10 @@ class PhoneController extends Controller
 	*/
 	public function deletePhoneAction($id)
 	{
-		// Manager encji
 		$em = $this->getDoctrine()->getManager();
-		// Bierzemy repozytorium encji
 		$repo = $em->getRepository('CodersLabBundle:Phone');
-		$phone = $repo->find($id);
-		// Chcemy usunąć...	
+		$phone = $repo->find($id);	
 		$em->remove($phone);
-		// Usuwamy...
 		$em->flush($phone);	
 		return $this->redirectToRoute('coderslab_phone_showphones');
 	}
@@ -168,33 +139,24 @@ class PhoneController extends Controller
 	//
 	// -----------------------------------------
 
-	// Formularz zapisu
 	private function getNewPhoneForm($phone)
 	{
-		// mechanizm do tworzenia formularzy
 		$form = $this->createFormBuilder($phone);
-		// akcja
 		$form->setAction($this->generateUrl('coderslab_phone_createphone'));
 		$form->add('phone');
 		$form->add('user_id');	
 		$form->add('save', 'submit');
 		
-		// zwracamy formularz
 		return $form->getForm();
 	}
 
-	// Formularz edycji
 	private function getEditPhoneForm($phone)
 	{
-		// mechanizm do tworzenia formularzy
 		$form = $this->createFormBuilder($phone);
-		// akcja
 		$form->setAction($this->generateUrl('coderslab_phone_updatephone', ['id'=>$phone->getId()]));
-		// dodajemy pola
 		$form->add('phone');
 		$form->add('update', 'submit');
 		
-		// zwracamy formularz
 		return $form->getForm();
 	}
 

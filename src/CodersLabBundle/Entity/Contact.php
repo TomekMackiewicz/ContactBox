@@ -217,10 +217,6 @@ class Contact
         return $this->phone->getId();
     }
 
-    // public function __toString() {
-    //     return $this->name.' '.$this->surname;
-    // }
-
 
     /**
      * Set email
@@ -243,6 +239,16 @@ class Contact
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Get phoneId
+     *
+     * @return \CodersLabBundle\Entity\Email 
+     */
+    public function getEmailId()
+    {
+        return $this->email->getId();
     }
 
     /**

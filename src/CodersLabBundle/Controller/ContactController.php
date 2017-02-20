@@ -25,11 +25,8 @@ class ContactController extends Controller
 	*/
 	public function newAction()
 	{
-		// Konstruujemy formularz, potrzebujemy danych
 		$contact = new Contact();
-		// Wywołujemy metodę budującą szablon formularza
 		$form = $this->getNewForm($contact);
-		// musi być createView()
 		return ['form' => $form->createView()];
 	}
 
@@ -42,19 +39,11 @@ class ContactController extends Controller
 	{
 		$contact = new Contact();
 		$form = $this->getNewForm($contact);
-
-		// Obsługujemy dane przychodzace z formularza
-		// Contact zostaje ustawiony (nie potrzebujemy robić set dla każdej wartości)
 		$form->handleRequest($req); 
 
-		// Można jeszcze dodać isValid()
 		if($form->isSubmitted()) {
-			// Manager encji
 			$em = $this->getDoctrine()->getManager();
-			// Chcemy dodać...
 			$em->persist($contact);
-			// Dodajemy...
-			// Flush może być bez parametru, wtedy wszystkie obiekty (wszystie zmiany)
 			$em->flush($contact);
 		}
 		return $this->redirectToRoute('coderslab_contact_index');
@@ -73,11 +62,8 @@ class ContactController extends Controller
 	*/
 	public function indexAction()
 	{
-		// Manager encji
 		$em = $this->getDoctrine()->getManager();
-		// Bierzemy repozytorium encji
 		$repo = $em->getRepository('CodersLabBundle:Contact');
-		//$contacts = $repo->findAll();
 		$contacts = $repo->findBy(array(), array('surname'=>'asc'));
 		return ['contacts' => $contacts];
 	}	
@@ -95,9 +81,7 @@ class ContactController extends Controller
 	*/
 	public function showAction($id)
 	{
-		// Manager encji
 		$em = $this->getDoctrine()->getManager();
-		// Bierzemy repozytorium encji
 		$repo = $em->getRepository('CodersLabBundle:Contact');
 		$contact = $repo->find($id);		
 		return ['contact' => $contact];
@@ -116,7 +100,6 @@ class ContactController extends Controller
 	*/
 	public function editAction($id)
 	{
-		// Inny zapis tego samego, co w create i delete
 		$contact = $this
 			->getDoctrine()
 			->getManager()
@@ -133,27 +116,15 @@ class ContactController extends Controller
 	*/
 	public function updateAction(Request $req, $id)
 	{
-		// Manager encji
 		$em = $this->getDoctrine()->getManager();
-		// Bierzemy repozytorium encji
 		$repo = $em->getRepository('CodersLabBundle:Contact');
 		$contact = $repo->find($id);		
-
 		$form = $this->getEditForm($contact);
-
-		// Obsługujemy dane przychodzace z formularza
-		// Contact zostaje ustawiony (nie potrzebujemy robić set dla każdej wartości)
 		$form->handleRequest($req); 
 
-		// Można jeszcze dodać isValid()
 		if($form->isSubmitted()) {
-			// Manager encji
 			$em = $this->getDoctrine()->getManager();
-			// Dodajemy (przy update bez persist)...
-			// Flush może być bez parametru, wtedy wszystkie obiekty (wszystie zmiany)
 			$em->flush($contact);
-			// Albo krócej:
-			// $this->getDoctrine()->getManager()->flush($contact);
 		}
 		return $this->redirectToRoute('coderslab_contact_index');
 	}
@@ -170,14 +141,10 @@ class ContactController extends Controller
 	*/
 	public function deleteAction($id)
 	{
-		// Manager encji
 		$em = $this->getDoctrine()->getManager();
-		// Bierzemy repozytorium encji
 		$repo = $em->getRepository('CodersLabBundle:Contact');
-		$contact = $repo->find($id);
-		// Chcemy usunąć...	
+		$contact = $repo->find($id);	
 		$em->remove($contact);
-		// Usuwamy...
 		$em->flush($contact);	
 		return $this->redirectToRoute('coderslab_contact_index');
 	}
@@ -188,43 +155,27 @@ class ContactController extends Controller
 	//
 	// -----------------------------------------
 
-	// Formularz zapisu
 	private function getNewForm($contact)
 	{
-		// mechanizm do tworzenia formularzy
 		$form = $this->createFormBuilder($contact);
-		// akcja
 		$form->setAction($this->generateUrl('coderslab_contact_create'));
-		// dodajemy pola
-		// $form->add('name', null, [ // atrybuty tu lub zob widok
-		// 	'attr' => [
-		// 		'class' => 'form-control',
-		// 		'placeholder' => 'Name...'
-		// 		]
-		// 	]);
 		$form->add('name');
 		$form->add('surname');
 		$form->add('description');
 		$form->add('save', 'submit');
 
-		// zwracamy formularz
 		return $form->getForm();
 	}
 
-	// Formularz edycji
 	private function getEditForm($contact)
 	{
-		// mechanizm do tworzenia formularzy
 		$form = $this->createFormBuilder($contact);
-		// akcja
 		$form->setAction($this->generateUrl('coderslab_contact_update', ['id'=>$contact->getId()]));
-		// dodajemy pola
 		$form->add('name');
 		$form->add('surname');
 		$form->add('description');
 		$form->add('update', 'submit');
 		
-		// zwracamy formularz
 		return $form->getForm();
 	}
 
