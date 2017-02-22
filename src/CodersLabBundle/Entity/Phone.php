@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Phone
  *
- * @ORM\Table(name="phone")
+ * @ORM\Table(name="phones")
  * @ORM\Entity(repositoryClass="CodersLabBundle\Repository\PhoneRepository")
  */
 class Phone
@@ -32,9 +32,9 @@ class Phone
     
     /**
     * @ORM\OneToOne(targetEntity="Contact", inversedBy="phone")
-    * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")    
+    * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", onDelete="CASCADE")    
     */
-    private $user_id;
+    private $contact_id;
 
     /**
      * Get id
@@ -70,30 +70,30 @@ class Phone
     }
 
     /**
-     * Set user_id
+     * Set contact_id
      *
-     * @param \CodersLabBundle\Entity\Contact $userId
+     * @param \CodersLabBundle\Entity\Contact $contactId
      * @return Phone
      */
-    public function setUserId(\CodersLabBundle\Entity\Contact $userId = null)
+    public function setContactId(\CodersLabBundle\Entity\Contact $contactId = null)
     {
-        $this->user_id = $userId;
+        $this->contact_id = $contactId;
 
         return $this;
     }
 
     /**
-     * Get user_id
+     * Get contact_id
      *
      * @return \CodersLabBundle\Entity\Contact 
      */
-    public function getUserId()
+    public function getContactId()
     {
-        return $this->user_id;
+        return $this->contact_id;
     }
 
     public function __toString() {
         return $this->phone;
     }
-    
+
 }

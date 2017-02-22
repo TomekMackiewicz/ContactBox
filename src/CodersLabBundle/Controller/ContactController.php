@@ -8,7 +8,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use CodersLabBundle\Entity\Contact;
+use CodersLabBundle\Entity\User;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
+/**
+* @Route("/contact") 
+*/
 class ContactController extends Controller
 {
 
@@ -41,12 +47,16 @@ class ContactController extends Controller
 		$form = $this->getNewForm($contact);
 		$form->handleRequest($req); 
 
-		if($form->isSubmitted()) {
+		if($form->isSubmitted() && $form->isValid()) {
 			$em = $this->getDoctrine()->getManager();
+			// Przypisanie usera do kontaktu
+			$contact->setUserId($this->getUser());
 			$em->persist($contact);
 			$em->flush($contact);
+			$contactId = $contact->getId();
+			return $this->redirectToRoute('coderslab_contact_show', ['id' => $contactId]);
 		}
-		return $this->redirectToRoute('coderslab_contact_index');
+		throw new Exception('Error create action.');
 	}
 
 	// -----------------------------------------
@@ -62,9 +72,11 @@ class ContactController extends Controller
 	*/
 	public function indexAction()
 	{
+		$user = $this->getUser();
 		$em = $this->getDoctrine()->getManager();
 		$repo = $em->getRepository('CodersLabBundle:Contact');
-		$contacts = $repo->findBy(array(), array('surname'=>'asc'));
+		$contacts = $repo->findByUserId($user->getId(), array('surname'=>'asc')); //user_id
+
 		return ['contacts' => $contacts];
 	}	
 
@@ -125,8 +137,9 @@ class ContactController extends Controller
 		if($form->isSubmitted()) {
 			$em = $this->getDoctrine()->getManager();
 			$em->flush($contact);
+			$contactId = $contact->getId();
 		}
-		return $this->redirectToRoute('coderslab_contact_index');
+		return $this->redirectToRoute('coderslab_contact_show', ['id' => $contactId]);
 	}
 
 	// -----------------------------------------

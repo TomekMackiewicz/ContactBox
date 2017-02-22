@@ -3,18 +3,18 @@
 {% block body %}
 
 	<h2>{{ contact.name|default('') }} {{ contact.surname|default('') }}</h2>
-	<p>Description: <strong>{{ contact.description|default('') }}</strong></p>
-	<p>Address: <strong>{{ contact.getAddress()|default('undefines') }}</strong></p>
+	<p><strong>Description:</strong><br>{{ contact.description|default('') }}</p>
+	<p>Address: <strong>{{ contact.getAddress()|default('undefined') }}</strong></p>
 	<p>Phone: <strong>{{ contact.getPhone()|default('undefined') }}</strong></p>
 	<p>Email: <strong>{{ contact.getEmail()|default('undefined') }}</strong></p>
-	<a href="{{path('coderslab_contact_index')}}" class="btn btn-default">
+	<a href="{{path('coderslab_contact_index')}}" class="btn btn-default btn-xs">
 		Back to list
 	</a>
-	<a href="{{path('coderslab_contact_delete', {'id':contact.id})}}" class="btn btn-danger">
+	<a href="{{path('coderslab_contact_edit', {'id':contact.id})}}" class="btn btn-primary btn-xs">
+		Edit
+	</a>		
+	<a href="{{path('coderslab_contact_delete', {'id':contact.id})}}" class="btn btn-danger btn-xs">
 		Remove
 	</a>
-	<a href="{{path('coderslab_contact_edit', {'id':contact.id})}}" class="btn btn-primary">
-		Edit
-	</a>	
 
 {% endblock %}

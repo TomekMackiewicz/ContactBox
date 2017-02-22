@@ -130,7 +130,7 @@ class EmailController extends Controller
 		$email = $repo->find($id);	
 		$em->remove($email);
 		$em->flush($email);	
-		return $this->redirectToRoute('coderslab_email_showemails');
+		return $this->redirectToRoute('coderslab_contact_index');
 	}
 
 	// -----------------------------------------
@@ -144,7 +144,7 @@ class EmailController extends Controller
 		$form = $this->createFormBuilder($email);
 		$form->setAction($this->generateUrl('coderslab_email_createemail'));
 		$form->add('email');
-		$form->add('user_id');	
+		$form->add('contact_id');	
 		$form->add('save', 'submit');
 		
 		return $form->getForm();

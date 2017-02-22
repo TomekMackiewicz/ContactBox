@@ -8,11 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Contact
  *
- * @ORM\Table(name="contact")
+ * @ORM\Table(name="contacts")
  * @ORM\Entity(repositoryClass="CodersLabBundle\Repository\ContactRepository")
  */
 class Contact
 {
+
     /**
      * @var int
      *
@@ -47,20 +48,25 @@ class Contact
     // Relacje
     
     /**
-    * @ORM\OneToOne(targetEntity="Address", mappedBy="user_id")
+    * @ORM\OneToOne(targetEntity="Address", mappedBy="contact_id")
     */
     private $address; 
-    // inversedBy="contact" = zob. private $contact w Address.php
 
     /**
-    * @ORM\OneToOne(targetEntity="Phone", mappedBy="user_id")
+    * @ORM\OneToOne(targetEntity="Phone", mappedBy="contact_id")
     */
     private $phone; 
 
     /**
-    * @ORM\OneToOne(targetEntity="Email", mappedBy="user_id")
+    * @ORM\OneToOne(targetEntity="Email", mappedBy="contact_id")
     */
     private $email;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="User", inversedBy="contacts")
+    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+    */
+    private $userId;
 
     /**
     * @ORM\ManyToMany(targetEntity="Team", inversedBy="contacts")
@@ -284,8 +290,32 @@ class Contact
         return $this->teams;
     }
 
+
+    /**
+     * Set userId
+     *
+     * @param \CodersLabBundle\Entity\User $userId
+     * @return Contact
+     */
+    public function setUserId(\CodersLabBundle\Entity\User $userId = null)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return \CodersLabBundle\Entity\User 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
     public function __toString() {
         return $this->name.' '.$this->surname;
     }
-    
+
 }

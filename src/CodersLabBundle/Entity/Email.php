@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Email
  *
- * @ORM\Table(name="email")
+ * @ORM\Table(name="emails")
  * @ORM\Entity(repositoryClass="CodersLabBundle\Repository\EmailRepository")
  */
 class Email
@@ -24,7 +24,7 @@ class Email
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=64)
+     * @ORM\Column(name="emails", type="string", length=64)
      */
     private $email;
 
@@ -32,9 +32,9 @@ class Email
     
     /**
     * @ORM\OneToOne(targetEntity="Contact", inversedBy="email")
-    * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")    
+    * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", onDelete="CASCADE")    
     */
-    private $user_id;
+    private $contact_id;
 
     /**
      * Get id
@@ -69,31 +69,31 @@ class Email
         return $this->email;
     }
 
-    public function __toString() {
-        return $this->email;
-    }
-
-
     /**
-     * Set user_id
+     * Set contact_id
      *
-     * @param \CodersLabBundle\Entity\Contact $userId
+     * @param \CodersLabBundle\Entity\Contact $contactId
      * @return Email
      */
-    public function setUserId(\CodersLabBundle\Entity\Contact $userId = null)
+    public function setContactId(\CodersLabBundle\Entity\Contact $contactId = null)
     {
-        $this->user_id = $userId;
+        $this->contact_id = $contactId;
 
         return $this;
     }
 
     /**
-     * Get user_id
+     * Get contact_id
      *
      * @return \CodersLabBundle\Entity\Contact 
      */
-    public function getUserId()
+    public function getContactId()
     {
-        return $this->user_id;
+        return $this->contact_id;
     }
+
+    public function __toString() {
+        return $this->email;
+    }
+
 }

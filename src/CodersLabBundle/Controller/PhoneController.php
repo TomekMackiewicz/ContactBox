@@ -130,7 +130,7 @@ class PhoneController extends Controller
 		$phone = $repo->find($id);	
 		$em->remove($phone);
 		$em->flush($phone);	
-		return $this->redirectToRoute('coderslab_phone_showphones');
+		return $this->redirectToRoute('coderslab_contact_index');
 	}
 
 	// -----------------------------------------
@@ -144,7 +144,7 @@ class PhoneController extends Controller
 		$form = $this->createFormBuilder($phone);
 		$form->setAction($this->generateUrl('coderslab_phone_createphone'));
 		$form->add('phone');
-		$form->add('user_id');	
+		$form->add('contact_id');	
 		$form->add('save', 'submit');
 		
 		return $form->getForm();

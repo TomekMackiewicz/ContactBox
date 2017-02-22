@@ -31,7 +31,6 @@ class AddressController extends Controller
 	{
 		$repo = $this->getDoctrine()->getManager()->getRepository('CodersLabBundle:Address');
 		$addresses = $repo->findAll();
-
 		return ['addresses' => $addresses];
 	}
 
@@ -130,7 +129,7 @@ class AddressController extends Controller
 		$address = $repo->find($id);	
 		$em->remove($address);
 		$em->flush($address);	
-		return $this->redirectToRoute('coderslab_address_showaddresses');
+		return $this->redirectToRoute('coderslab_contact_index');
 	}
 
 	// -----------------------------------------
@@ -144,7 +143,7 @@ class AddressController extends Controller
 		$form = $this->createFormBuilder($address);
 		$form->setAction($this->generateUrl('coderslab_address_createaddress'));
 		$form->add('fullAddress');
-		$form->add('user_id');	
+		$form->add('contact_id');	
 		$form->add('save', 'submit');
 		return $form->getForm();
 	}

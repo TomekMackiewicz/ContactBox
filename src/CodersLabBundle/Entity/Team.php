@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Team
  *
- * @ORM\Table(name="team")
+ * @ORM\Table(name="teams")
  * @ORM\Entity(repositoryClass="CodersLabBundle\Repository\TeamRepository")
  */
 class Team
@@ -30,9 +30,16 @@ class Team
     private $team;
 
     /**
+    * @ORM\ManyToOne(targetEntity="User", inversedBy="teams")
+    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+    */
+    private $userId;
+
+    /**
     * @ORM\ManyToMany(targetEntity="Contact", mappedBy="teams")
     */
     private $contacts;
+    
     public function __construct() {
         $this->contacts = new ArrayCollection();
     }
@@ -107,4 +114,27 @@ class Team
         return $this->team;
     }
 
+
+    /**
+     * Set userId
+     *
+     * @param \CodersLabBundle\Entity\User $userId
+     * @return Team
+     */
+    public function setUserId(\CodersLabBundle\Entity\User $userId = null)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return \CodersLabBundle\Entity\User 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
 }

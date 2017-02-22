@@ -33,7 +33,7 @@
 
 		</select>
 		<input type="hidden" name="team" value="{{team.id}}"> 		
-		<input type="submit" class="btn btn-success" value="Add contact">
+		<input type="submit" class="btn btn-success btn-xs" value="Add contact">
 	</form>	
 	<hr>
 	Remove contact:
@@ -53,20 +53,17 @@
 
 		</select>
 		<input type="hidden" name="team" value="{{team.id}}"> 		
-		<input type="submit" class="btn btn-danger" value="Remove contact">
+		<input type="submit" class="btn btn-danger btn-xs" value="Remove contact">
 	</form>	
 	<hr>	
-	<a href="{{path('coderslab_team_showteams')}}" class="btn btn-default">
+	<a href="{{path('coderslab_team_showteams')}}" class="btn btn-default btn-xs">
 		Back to list
 	</a>
-{# 	<a href="{{path('coderslab_team_addcontact', {'contactId':2, 'teamId':2})}}" class="btn btn-success">
-		Add Contact
-	</a>	 #}	
-	<a href="{{path('coderslab_team_deleteteam', {'id':team.id})}}" class="btn btn-danger">
-		Remove
-	</a>
-	<a href="{{path('coderslab_team_editteam', {'id':team.id})}}" class="btn btn-primary">
+	<a href="{{path('coderslab_team_editteam', {'id':team.id})}}" class="btn btn-primary btn-xs">
 		Edit
 	</a>	
-
+	<a href="{{path('coderslab_team_deleteteam', {'id':team.id})}}" class="btn btn-danger btn-xs">
+		Remove
+	</a>
+	
 {% endblock %}

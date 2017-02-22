@@ -18,6 +18,7 @@
 	<p>Address: <strong>{{ contact.getAddress()|default('undefined') }}</strong>
 		{% if contact.getAddress() %}
 		    <a href="{{path('coderslab_address_editaddress',{'id':contact.getAddressId()})}}" class="btn btn-default btn-xs">Edit address</a> 
+				<a href="{{path('coderslab_address_deleteaddress',{'id':contact.getAddressId()})}}" class="btn btn-danger btn-xs">Delete address</a>		    
 		{% else %}
 				<a href="{{path('coderslab_address_newaddress',{'id':contact.getId()})}}" class="btn btn-default btn-xs">Add address</a>
 		{% endif %}
@@ -25,13 +26,15 @@
 	<p>Phone: <strong>{{ contact.getPhone()|default('undefined') }}</strong>
 		{% if contact.getPhone() %}
 		    <a href="{{path('coderslab_phone_editphone',{'id':contact.getPhoneId()})}}" class="btn btn-default btn-xs">Edit phone</a> 
+		    <a href="{{path('coderslab_phone_deletephone',{'id':contact.getPhoneId()})}}" class="btn btn-danger btn-xs">Delete phone</a>
 		{% else %}
 				<a href="{{path('coderslab_phone_newphone',{'id':contact.getId()})}}" class="btn btn-default btn-xs">Add phone</a>
 		{% endif %}
 	</p>
 	<p>Email: <strong>{{ contact.getEmail()|default('undefined') }}</strong>
 		{% if contact.getEmail() %}
-		    <a href="{{path('coderslab_email_editemail',{'id':contact.getEmailId()})}}" class="btn btn-default btn-xs">Edit email</a> 
+		    <a href="{{path('coderslab_email_editemail',{'id':contact.getEmailId()})}}" class="btn btn-default btn-xs">Edit email</a>
+		    <a href="{{path('coderslab_email_deleteemail',{'id':contact.getEmailId()})}}" class="btn btn-danger btn-xs">Delete email</a> 
 		{% else %}
 				<a href="{{path('coderslab_email_newemail',{'id':contact.getId()})}}" class="btn btn-default btn-xs">Add email</a>
 		{% endif %}

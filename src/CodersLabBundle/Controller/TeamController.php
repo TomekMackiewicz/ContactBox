@@ -9,7 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use CodersLabBundle\Entity\Team;
 use CodersLabBundle\Entity\Contact;
+use CodersLabBundle\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
 * @Route("/team")
@@ -30,8 +32,10 @@ class TeamController extends Controller
 	*/
 	public function showTeamsAction()
 	{
+		$user = $this->getUser();
 		$repo = $this->getDoctrine()->getManager()->getRepository('CodersLabBundle:Team');
-		$teams = $repo->findAll();
+		//$teams = $repo->findAll();
+		$teams = $repo->findByUserId($user->getId(), array('team'=>'asc'));
 
 		return ['teams' => $teams];
 	}
@@ -43,17 +47,19 @@ class TeamController extends Controller
 	// -----------------------------------------
 
 	/**
-	* @Route("/{id}")
+	* @Route("/{id}", requirements={"id" = "\d+"})
 	* @Method("GET")
 	* @Template()
 	*/
 	public function showTeamAction($id, \CodersLabBundle\Entity\Contact $contacts = null) 
 	{
+		$user = $this->getUser();
 		$em = $this->getDoctrine()->getManager();
 		$repo = $em->getRepository('CodersLabBundle:Team');
 		$team = $repo->find($id);	
 		$repoContacts = $em->getRepository('CodersLabBundle:Contact');
-		$allContacts = $repoContacts->findAll();
+		//$allContacts = $repoContacts->findAll();
+		$allContacts = $repoContacts->findByUserId($user->getId(), array('surname'=>'asc'));
 		$contacts = $team->getContacts();
 
 		return ['team' => $team, 'contacts' => $contacts, 'allContacts' => $allContacts];
@@ -219,9 +225,18 @@ class TeamController extends Controller
 
 	private function getNewTeamForm($team)
 	{
+		$user = $this->getUser();
 		$form = $this->createFormBuilder($team);
 		$form->setAction($this->generateUrl('coderslab_team_createteam'));
-		$form->add('team');	
+		$form->add('team');
+
+		$form->add('userId', EntityType::class, array(
+		    'class' => 'CodersLabBundle:User',
+		    'data' => $user->getId(),
+		    'label' => false
+		    //'attr' => array('style'=>'display:none;')
+		));
+
 		$form->add('save', 'submit');
 		
 		return $form->getForm();

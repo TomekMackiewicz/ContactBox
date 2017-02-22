@@ -20,15 +20,26 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                           </button>
-                          <a class="navbar-brand" href="/">Contact List</a>
+                          <a class="navbar-brand" href="{{path('coderslab_contact_index')}}">Contact List</a>
                         </div>
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                           <ul class="nav navbar-nav">
-                            <li><a href="{{path('coderslab_address_showaddresses')}}">Addresses</a></li>
-                            <li><a href="{{path('coderslab_phone_showphones')}}">Phones</a></li>
-                            <li><a href="{{path('coderslab_email_showemails')}}">Emails</a></li>
                             <li><a href="{{path('coderslab_team_showteams')}}">Groups</a></li>
                           </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                <li>
+                                    <a>{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('fos_user_security_logout') }}">
+                                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li><a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
+                            {% endif %}
+                            </ul>                          
                         </div>
                       </div>
                     </nav>

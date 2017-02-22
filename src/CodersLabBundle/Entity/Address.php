@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Address
  *
- * @ORM\Table(name="address")
+ * @ORM\Table(name="addresses")
  * @ORM\Entity(repositoryClass="CodersLabBundle\Repository\AddressRepository")
  */
 class Address
@@ -24,7 +24,7 @@ class Address
     /**
      * @var string
      *
-     * @ORM\Column(name="fullAddress", type="text")
+     * @ORM\Column(name="full_address", type="text")
      */
     private $fullAddress;
 
@@ -33,10 +33,9 @@ class Address
     
     /**
     * @ORM\OneToOne(targetEntity="Contact", inversedBy="address")
-    * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")    
+    * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", onDelete="CASCADE")    
     */
-    private $user_id; 
-    // mappedBy="address" = zob. private $address w Contact.php
+    private $contact_id; 
 
     /**
      * Get id
@@ -72,26 +71,26 @@ class Address
     }
 
     /**
-     * Set user_id
+     * Set contact_id
      *
-     * @param \CodersLabBundle\Entity\Contact $userId
+     * @param \CodersLabBundle\Entity\Contact $contactId
      * @return Address
      */
-    public function setUserId(\CodersLabBundle\Entity\Contact $userId = null)
+    public function setContactId(\CodersLabBundle\Entity\Contact $contactId = null)
     {
-        $this->user_id = $userId;
+        $this->contact_id = $contactId;
 
         return $this;
     }
 
     /**
-     * Get user_id
+     * Get contact_id
      *
      * @return \CodersLabBundle\Entity\Contact 
      */
-    public function getUserId()
+    public function getContactId()
     {
-        return $this->user_id;
+        return $this->contact_id;
     }
 
     public function __toString() {

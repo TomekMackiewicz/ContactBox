@@ -5,7 +5,7 @@
 	{{ form_start(form) }}
 		{{ form_label(form.phone) }}
 		{{ form_widget(form.phone, {'attr':{'class':'form-control','placeholder':'Phone...'}}) }}
-		{{ form_widget(form.user_id, {value:app.request.query.get("id"),'attr':{'class':'hidden'}}) }}
+		{{ form_widget(form.contact_id, {value:app.request.query.get("id"),'attr':{'class':'hidden'}}) }}
 		<br>
 		{{ form_widget(form.save, {'attr':{'class':'btn btn-default'}}) }}
 	{{ form_end(form) }}
