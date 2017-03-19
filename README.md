@@ -1,4 +1,4 @@
-ContactsBox
+ContactBox
 ===========
 
-A Symfony project created on February 17, 2017, 11:49 am.
+Książka kontaktowa z możliwością tworzenia grup i dodawania kontaktów do grup.
